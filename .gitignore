@@ -1,0 +1,8 @@
+# Logs and local editor files
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Keep lazy-lock.json tracked to restore plugin versions on other computers.
