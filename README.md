@@ -19,19 +19,20 @@ Allow the first launch to install plugins, then run these commands inside Neovim
 
 ```vim
 :Lazy restore
-:MasonToolsInstall
+:MasonInstallAll
 :TSInstallAll
 ```
 
 `lazy-lock.json` records plugin revisions; keep it committed so `:Lazy restore`
 can restore the same versions on another computer. See the [lazy.nvim lockfile guide](https://lazy.folke.io/usage/lockfile).
 
-`lua/configs/mason-tools.lua` lists the tools to install: `lua-language-server`,
+`lua/configs/mason.lua` lists the tools to install: `lua-language-server`,
 `html-lsp`, `css-lsp`, `basedpyright`, `stylua`, `ruff`, `prettier`, and `debugpy`.
-[mason-tool-installer](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim)
-checks for missing tools on startup; `:MasonToolsInstall` also installs them on
-demand. Automatic tool updates are disabled. Tools installed manually through
-`:Mason` must also be added to this list to restore them on another computer.
+`lua/chadrc.lua` connects this list to NvChad's built-in `:MasonInstallAll`
+command, which installs missing tools when run. No extra installer plugin or
+startup installation is needed. NvChad also detects tools from the LSP,
+Conform, and nvim-lint configuration. Add tools installed manually through
+`:Mason` to this list if they should be restored on another computer.
 
 `lua/configs/lspconfig.lua` enables language servers, while
 `lua/configs/conform.lua` selects formatters and enables formatting on save.
@@ -55,7 +56,7 @@ git push
 
 On another configured computer, run `git pull --ff-only` from `~/.config/nvim`
 when local changes have been committed, then run `:Lazy restore`,
-`:MasonToolsInstall`, and `:TSInstallAll` inside Neovim. Restart Neovim after
+`:MasonInstallAll`, and `:TSInstallAll` inside Neovim. Restart Neovim after
 restoring plugins so their restored versions are loaded.
 
 ## Sync changes from NvChad starter

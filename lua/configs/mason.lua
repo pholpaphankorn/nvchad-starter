@@ -1,5 +1,6 @@
 return {
-  ensure_installed = {
+  -- Install this list with NvChad's :MasonInstallAll command.
+  pkgs = {
     "lua-language-server",
     "html-lsp",
     "css-lsp",
@@ -9,6 +10,4 @@ return {
     "prettier",
     "debugpy",
   },
-  auto_update = false,
-  run_on_start = true,
 }
