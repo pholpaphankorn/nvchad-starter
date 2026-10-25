@@ -7,13 +7,6 @@ return {
   },
 
   {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    lazy = false,
-    dependencies = { "mason-org/mason.nvim" },
-    opts = require "configs.mason-tools",
-  },
-
-  {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown" },
     cmd = "RenderMarkdown",

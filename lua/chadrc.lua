@@ -5,6 +5,8 @@
 ---@type ChadrcConfig
 local M = {}
 
+M.mason = require "configs.mason"
+
 M.base46 = {
 	theme = "onedark",
 
