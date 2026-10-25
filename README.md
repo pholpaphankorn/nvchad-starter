@@ -19,17 +19,29 @@ Allow the first launch to install plugins, then run these commands inside Neovim
 
 ```vim
 :Lazy restore
-:MasonInstallAll
+:MasonToolsInstall
 :TSInstallAll
 ```
 
 `lazy-lock.json` records plugin revisions; keep it committed so `:Lazy restore`
 can restore the same versions on another computer. See the [lazy.nvim lockfile guide](https://lazy.folke.io/usage/lockfile).
 
-This config uses the `html`, `cssls`, and `basedpyright` language servers and the
-`stylua`, `ruff`, and `prettier` formatters. Install any missing tools through
-`:Mason` or your system package manager. Installed tools and plugin downloads
-are separate from this repository.
+`lua/configs/mason-tools.lua` lists the tools to install: `lua-language-server`,
+`html-lsp`, `css-lsp`, `basedpyright`, `stylua`, `ruff`, `prettier`, and `debugpy`.
+[mason-tool-installer](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim)
+checks for missing tools on startup; `:MasonToolsInstall` also installs them on
+demand. Automatic tool updates are disabled. Tools installed manually through
+`:Mason` must also be added to this list to restore them on another computer.
+
+`lua/configs/lspconfig.lua` enables language servers, while
+`lua/configs/conform.lua` selects formatters and enables formatting on save.
+`lua/configs/treesitter.lua` lists the parsers installed by `:TSInstallAll`.
+`lua/plugins/init.lua` connects these configuration files to their plugins.
+
+Keep these configuration files and `lazy-lock.json` in Git. The lockfile pins
+plugin revisions; it does not pin Mason tool versions. Specific tool versions
+can be declared in the Mason tool list when needed. Downloaded tools, compiled
+parsers, and plugin checkouts are installed separately on each computer.
 
 ## Save changes
 
@@ -42,7 +54,9 @@ git push
 ```
 
 On another configured computer, run `git pull --ff-only` from `~/.config/nvim`
-when local changes have been committed, then run `:Lazy restore` inside Neovim.
+when local changes have been committed, then run `:Lazy restore`,
+`:MasonToolsInstall`, and `:TSInstallAll` inside Neovim. Restart Neovim after
+restoring plugins so their restored versions are loaded.
 
 ## Sync changes from NvChad starter
 
