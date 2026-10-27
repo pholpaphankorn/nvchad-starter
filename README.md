@@ -82,6 +82,9 @@ In a diff window, `]c` and `[c` keep Neovim's built-in diff navigation.
 NvChad's existing `Space h` shortcut still opens a horizontal terminal after
 the mapping timeout; `Space h p` and `Space h d` select the Git actions above.
 
+Gitsigns shows blame information for the current line as virtual text by default.
+Use `:Gitsigns toggle_current_line_blame` to toggle it for the current session.
+
 ## Save changes
 
 ```sh

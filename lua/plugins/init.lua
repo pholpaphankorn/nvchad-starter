@@ -2,6 +2,9 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     cmd = "Gitsigns",
+    opts = {
+      current_line_blame = true,
+    },
   },
 
   {
