@@ -27,6 +27,7 @@ map("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>", { desc = "Git preview h
 map("n", "<leader>hd", "<cmd>Gitsigns diffthis<CR>", { desc = "Git diff current file" })
 map("n", "<leader>gd", "<cmd>Gitsigns diff<CR>", { desc = "Git repository diff" })
 map("n", "<leader>gc", ":Gitsigns diff ", { desc = "Git compare branches or commits" })
+map("n", "<leader>gl", "<cmd>Gitsigns diff HEAD~1..HEAD<CR>", { desc = "Git diff latest commit" })
 map("n", "<leader>gp", "<cmd>Gitsigns diff origin/main...HEAD<CR>", { desc = "Git PR diff against origin/main" })
 
 map("n", "<leader>ua", function()
