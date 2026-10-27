@@ -1,5 +1,10 @@
 return {
   {
+    "lewis6991/gitsigns.nvim",
+    cmd = "Gitsigns",
+  },
+
+  {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     cmd = "ConformInfo",
