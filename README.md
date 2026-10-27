@@ -62,6 +62,7 @@ These shortcuts work in normal mode; `<leader>` is `Space`.
 | `<leader>hd` | Diff the current file against the index |
 | `<leader>gd` | Open the repository diff against `HEAD` |
 | `<leader>gc` | Start `:Gitsigns diff ` to enter branches or commits |
+| `<leader>gl` | Diff the latest commit against its parent (`:Gitsigns diff HEAD~1..HEAD`) |
 | `<leader>gp` | Compare the current branch against `origin/main` using the merge base |
 
 To review a PR, fetch from `origin`, check out its branch, then press `Space g p`.
