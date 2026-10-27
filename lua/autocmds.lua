@@ -1,10 +1,16 @@
 require "nvchad.autocmds"
 
+vim.g.autosave_enabled = vim.g.autosave_enabled == true
+
 vim.api.nvim_create_autocmd({ "InsertLeave", "BufLeave", "FocusLost" }, {
   group = vim.api.nvim_create_augroup("AutoSave", { clear = true }),
   nested = true,
   desc = "Save edited files when leaving insert mode, a buffer, or Neovim focus",
   callback = function(args)
+    if not vim.g.autosave_enabled then
+      return
+    end
+
     local buf = args.buf
     local opts = vim.bo[buf]
 
