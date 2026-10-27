@@ -1,10 +1,11 @@
 require "nvchad.autocmds"
 
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = vim.api.nvim_create_augroup("NvimTreeStatuscolumn", { clear = true }),
-  desc = "Use the default gutter in NvimTree windows",
+vim.api.nvim_create_autocmd({ "BufWinEnter", "TermOpen" }, {
+  group = vim.api.nvim_create_augroup("DefaultStatuscolumn", { clear = true }),
+  desc = "Use the default gutter in NvimTree and terminal windows",
   callback = function(args)
-    if vim.bo[args.buf].filetype == "NvimTree" then
+    local buf = vim.bo[args.buf]
+    if buf.filetype == "NvimTree" or buf.buftype == "terminal" then
       vim.opt_local.statuscolumn = ""
     end
   end,
