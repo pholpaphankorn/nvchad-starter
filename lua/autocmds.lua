@@ -1,5 +1,15 @@
 require "nvchad.autocmds"
 
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = vim.api.nvim_create_augroup("NvimTreeStatuscolumn", { clear = true }),
+  desc = "Use the default gutter in NvimTree windows",
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "NvimTree" then
+      vim.opt_local.statuscolumn = ""
+    end
+  end,
+})
+
 vim.g.autosave_enabled = vim.g.autosave_enabled == true
 
 vim.api.nvim_create_autocmd({ "InsertLeave", "BufLeave", "FocusLost" }, {
