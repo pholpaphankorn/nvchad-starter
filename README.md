@@ -51,6 +51,30 @@ Autosave is disabled by default when Neovim starts. In normal mode, press
 autosave is now enabled or disabled. When enabled, edited files are saved on
 leaving insert mode, leaving a buffer, or losing Neovim focus.
 
+## Git shortcuts
+
+These shortcuts work in normal mode; `<leader>` is `Space`.
+
+| Shortcut | Action |
+| --- | --- |
+| `]c` / `[c` | Next / previous changed hunk; counts such as `3]c` are supported |
+| `<leader>hp` | Preview the current hunk |
+| `<leader>hd` | Diff the current file against the index |
+| `<leader>gd` | Open the repository diff against `HEAD` |
+| `<leader>gc` | Start `:Gitsigns diff ` to enter branches or commits |
+| `<leader>gp` | Compare the current branch against `origin/main` using the merge base |
+
+To review a PR, fetch from `origin`, check out its branch, then press `Space g p`.
+This runs `:Gitsigns diff origin/main...HEAD`, showing committed changes since
+the branches' common ancestor. Uncommitted edits are excluded. For a PR targeting
+another branch, use `Space g c` and enter, for example, `origin/develop...HEAD`.
+You can also enter `main..feature` to compare branch tips or `abc123..def456`
+to compare specific commits.
+
+In a diff window, `]c` and `[c` keep Neovim's built-in diff navigation.
+NvChad's existing `Space h` shortcut still opens a horizontal terminal after
+the mapping timeout; `Space h p` and `Space h d` select the Git actions above.
+
 ## Save changes
 
 ```sh
