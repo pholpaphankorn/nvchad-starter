@@ -59,12 +59,25 @@ These shortcuts work in normal mode; `<leader>` is `Space`.
 | --- | --- |
 | `]c` / `[c` | Next / previous changed hunk; counts such as `3]c` are supported |
 | `<leader>hp` | Preview the current hunk |
+| `<leader>hi` | Preview the current hunk inline, including deleted lines |
+| `<leader>hs` | Stage the current hunk, or unstage it when only staged changes are present |
+| `<leader>tw` | Toggle word-level difference highlighting (disabled on startup) |
 | `<leader>hd` | Diff the current file against the index |
 | `<leader>gd` | Open the repository diff against `HEAD` |
 | `<leader>gc` | Start `:Gitsigns diff ` to enter branches or commits |
 | `<leader>gg` | Open `git log --oneline --graph --decorate --all` in a terminal in a new tab |
 | `<leader>gl` | Diff the latest commit against its parent (`:Gitsigns diff HEAD~1..HEAD`) |
 | `<leader>gp` | Compare the current branch against `origin/main` using the merge base |
+
+In visual mode, `Space h s` stages only the selected lines, allowing partial-hunk
+staging. Selecting staged lines with no overlapping unstaged changes unstages
+them instead. When staged and unstaged edits overlap, staging takes precedence.
+
+The `ih` text object selects a hunk in visual and operator-pending modes: use
+`vih` to select a hunk or `yih` to copy its current buffer lines.
+
+Use `Space t w` to turn word-level differences on or off for the current session.
+Restarting Neovim returns them to disabled.
 
 To review a PR, fetch from `origin`, check out its branch, then press `Space g p`.
 This runs `:Gitsigns diff origin/main...HEAD`, showing committed changes since
@@ -80,7 +93,7 @@ the graph tab.
 
 In a diff window, `]c` and `[c` keep Neovim's built-in diff navigation.
 NvChad's existing `Space h` shortcut still opens a horizontal terminal after
-the mapping timeout; `Space h p` and `Space h d` select the Git actions above.
+the mapping timeout; longer `Space h …` shortcuts select the Git actions above.
 
 Gitsigns shows blame information for the current line as virtual text by default.
 Use `:Gitsigns toggle_current_line_blame` to toggle it for the current session.

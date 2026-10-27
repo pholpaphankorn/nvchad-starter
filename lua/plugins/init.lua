@@ -4,6 +4,7 @@ return {
     cmd = "Gitsigns",
     opts = {
       current_line_blame = true,
+      word_diff = false,
     },
   },
 

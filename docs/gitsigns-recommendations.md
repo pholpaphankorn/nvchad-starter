@@ -2,7 +2,12 @@
 
 Reviewed 2026-10-27 against upstream documentation and the installed revision
 `d4854fa9a94b5c8b37dd209fb4a19e98e764186f`, which matches `lazy-lock.json`.
-This is a recommendation report; no configuration was changed.
+The initial review did not change configuration. Priority 1 was implemented on
+2026-10-27: word differences are disabled on startup, `Space t w` toggles them
+for the current session,
+`Space h s` stages/unstages hunks or visually selected lines, `Space h i` opens
+an inline hunk preview, and `ih` selects a hunk. The remaining priorities below
+are recommendations.
 
 ## Existing setup
 
@@ -19,7 +24,7 @@ customizes two sign glyphs; the upstream feature defaults still apply.
 | --- | --- | --- | --- |
 | 1 | Stage/unstage a hunk | `Space h s` in normal and visual modes | Build focused commits while reviewing changes. Visual mode can stage part of a hunk. |
 | 1 | Inline hunk preview | `Space h i` | Read removed lines beside the current code without opening a split. Keep the existing popup preview too. |
-| 1 | Word differences | `word_diff = true`; `Space t w` to toggle | Make small edits inside changed lines easier to spot. |
+| 1 | Word differences | `word_diff = false`; `Space t w` to toggle | Turn on precise highlighting when reviewing small edits inside changed lines. |
 | 1 | Hunk text object | `ih` in operator-pending and visual modes | Use `vih` to select and `yih` to copy a hunk. |
 | 2 | Repository hunk list | `Space h Q` for all; `Space h q` for current buffer | Walk changes with quickfix when reviewing many files. |
 | 2 | Staged-hunk navigation | Separate staged navigation or `target = 'all'` | Review what is already staged as well as pending edits. |
@@ -40,8 +45,10 @@ unstaging. Whole-buffer helpers exist (`stage_buffer()` and
 ## Settings and navigation
 
 Keep sign-column indicators and staged signs enabled; both already default to
-true. Start with `word_diff = true`, and leave full-line highlights (`linehl`)
-and line-number highlights (`numhl`) off unless the gutter is hard to follow.
+true. Keep `word_diff = false` on startup and use `Space t w` to toggle it for
+the current session. Restarting Neovim returns it to disabled. Leave full-line
+highlights (`linehl`) and line-number highlights (`numhl`) off unless the gutter
+is hard to follow.
 Keep the existing blame preference, with an optional toggle for dense reviews.
 These choices favor precise change cues with limited extra coloring.
 
