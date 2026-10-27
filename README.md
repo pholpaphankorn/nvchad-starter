@@ -62,6 +62,7 @@ These shortcuts work in normal mode; `<leader>` is `Space`.
 | `<leader>hd` | Diff the current file against the index |
 | `<leader>gd` | Open the repository diff against `HEAD` |
 | `<leader>gc` | Start `:Gitsigns diff ` to enter branches or commits |
+| `<leader>gg` | Open `git log --oneline --graph --decorate --all` in a terminal in a new tab |
 | `<leader>gl` | Diff the latest commit against its parent (`:Gitsigns diff HEAD~1..HEAD`) |
 | `<leader>gp` | Compare the current branch against `origin/main` using the merge base |
 
@@ -71,6 +72,11 @@ the branches' common ancestor. Uncommitted edits are excluded. For a PR targetin
 another branch, use `Space g c` and enter, for example, `origin/develop...HEAD`.
 You can also enter `main..feature` to compare branch tips or `abc123..def456`
 to compare specific commits.
+
+Press `Space g g` to see the commit graph across all local and remote-tracking
+branches. If Git opens a pager, press `i` to send terminal input, then `q` to
+quit the pager. Use NvChad's `Ctrl-x` to return to normal mode and `:q` to close
+the graph tab.
 
 In a diff window, `]c` and `[c` keep Neovim's built-in diff navigation.
 NvChad's existing `Space h` shortcut still opens a horizontal terminal after
