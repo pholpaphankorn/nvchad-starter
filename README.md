@@ -72,13 +72,6 @@ split showing the file. Diff windows retain their own folding behavior.
 To add language support, install its parser with `:TSInstall <language>` or
 configure a language server in `lua/configs/lspconfig.lua`.
 
-Run the folding regression check from this configuration directory with the Lua
-Tree-sitter parser installed:
-
-```sh
-NVIM_LOG_FILE=/tmp/nvim-folding.log nvim --headless -i NONE -n '+lua dofile("tests/folding.lua")'
-```
-
 ## Git shortcuts
 
 These shortcuts work in normal mode; `<leader>` is `Space`.
