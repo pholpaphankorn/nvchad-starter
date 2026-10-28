@@ -2,6 +2,11 @@ require "nvchad.options"
 
 -- add yours here!
 
+-- Enable folding while keeping files open until a fold command is used.
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+
 -- Show absolute line numbers and relative distances in separate columns.
 vim.opt.number = true
 vim.opt.relativenumber = true
