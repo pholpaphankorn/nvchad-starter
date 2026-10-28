@@ -51,6 +51,13 @@ Autosave is disabled by default when Neovim starts. In normal mode, press
 autosave is now enabled or disabled. When enabled, edited files are saved on
 leaving insert mode, leaving a buffer, or losing Neovim focus.
 
+## Message history
+
+Press `Space u m` in normal mode to copy `:messages` into a new scratch buffer,
+shown as a file tab in NvChad. You can scroll, search, and copy the output.
+The buffer contains a snapshot; press the shortcut again for current messages.
+Use `:bd` to close it. It does not prompt to save.
+
 ## Code folding
 
 Folding uses the attached language server when it supports folding ranges,
