@@ -1,12 +1,12 @@
 require "nvchad.autocmds"
 require("configs.folding").setup()
 
-vim.api.nvim_create_autocmd({ "BufWinEnter", "TermOpen" }, {
+vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType", "TermOpen" }, {
   group = vim.api.nvim_create_augroup("DefaultStatuscolumn", { clear = true }),
-  desc = "Use the default gutter in NvimTree and terminal windows",
+  desc = "Use the default gutter in NvimTree, Gitsigns explorer, and terminal windows",
   callback = function(args)
     local buf = vim.bo[args.buf]
-    if buf.filetype == "NvimTree" or buf.buftype == "terminal" then
+    if buf.filetype == "NvimTree" or buf.filetype == "gitsigns-diff" or buf.buftype == "terminal" then
       vim.opt_local.statuscolumn = ""
     end
   end,
