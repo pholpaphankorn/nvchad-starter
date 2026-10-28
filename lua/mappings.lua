@@ -46,4 +46,15 @@ map("n", "<leader>ua", function()
   vim.notify("Autosave " .. (vim.g.autosave_enabled and "enabled" or "disabled"), vim.log.levels.INFO)
 end, { desc = "Toggle autosave" })
 
+map("n", "<leader>um", function()
+  local messages = vim.fn.execute "messages"
+  vim.cmd.enew()
+  vim.bo.buftype = "nofile"
+  vim.bo.bufhidden = "wipe"
+  vim.bo.swapfile = false
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(messages, "\n", { trimempty = true }))
+  vim.bo.modified = false
+  vim.api.nvim_win_set_cursor(0, { 1, 0 })
+end, { desc = "Show messages in a new buffer" })
+
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
