@@ -51,6 +51,34 @@ Autosave is disabled by default when Neovim starts. In normal mode, press
 autosave is now enabled or disabled. When enabled, edited files are saved on
 leaving insert mode, leaving a buffer, or losing Neovim focus.
 
+## Code folding
+
+Folding uses the attached language server when it supports folding ranges,
+otherwise the installed Tree-sitter parser and its folding query. Files without
+either use indentation. This uses [Neovim's native folding support](https://neovim.io/doc/user/lsp/#vim.lsp.foldexpr()),
+so no additional plugin is needed. Files start with all folds open.
+
+These shortcuts work in normal mode:
+
+| Shortcut | Action |
+| --- | --- |
+| `zM` / `zR` | Close / open all folds |
+| `zc` / `zo` | Close / open the fold under the cursor |
+| `za` | Toggle the fold under the cursor |
+| `zm` / `zr` | Fold one level more / less |
+
+Folding updates when a language server attaches or detaches and applies to each
+split showing the file. Diff windows retain their own folding behavior.
+To add language support, install its parser with `:TSInstall <language>` or
+configure a language server in `lua/configs/lspconfig.lua`.
+
+Run the folding regression check from this configuration directory with the Lua
+Tree-sitter parser installed:
+
+```sh
+NVIM_LOG_FILE=/tmp/nvim-folding.log nvim --headless -i NONE -n '+lua dofile("tests/folding.lua")'
+```
+
 ## Git shortcuts
 
 These shortcuts work in normal mode; `<leader>` is `Space`.

@@ -1,4 +1,5 @@
 require "nvchad.autocmds"
+require("configs.folding").setup()
 
 vim.api.nvim_create_autocmd({ "BufWinEnter", "TermOpen" }, {
   group = vim.api.nvim_create_augroup("DefaultStatuscolumn", { clear = true }),
