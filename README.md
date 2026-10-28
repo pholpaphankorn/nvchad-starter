@@ -119,6 +119,95 @@ the mapping timeout; longer `Space h …` shortcuts select the Git actions above
 Gitsigns shows blame information for the current line as virtual text by default.
 Use `:Gitsigns toggle_current_line_blame` to toggle it for the current session.
 
+## Python debugging
+
+Mason installs `debugpy`, the Python debug adapter. The `nvim-dap` plugin connects
+Neovim to it. This setup uses nvim-dap's built-in console and variable/stack
+viewers, with no additional debugger UI plugins.
+
+Restart Neovim after pulling this configuration and let Lazy install `nvim-dap`.
+On another computer, run `:Lazy restore` and `:MasonInstallAll` first.
+The configuration lives in `lua/configs/dap.lua`, and its shortcuts are in
+`lua/plugins/dap.lua`. It loads when opening Python files or using a debug shortcut.
+
+Start Neovim from your Python project's root directory (`cd /path/to/project &&
+nvim main.py`), or use `:cd /path/to/project` inside Neovim. That directory is
+the program's working directory. The interpreter is selected in this order:
+
+1. An activated virtual environment (`VIRTUAL_ENV`, then `CONDA_PREFIX`). Activate
+   it in your shell **before** starting Neovim.
+2. `.venv/bin/python` or `venv/bin/python` in Neovim's working directory.
+3. `python3`, then `python`, from `PATH`.
+
+Install your project's dependencies in that interpreter. Mason's separate Python
+only runs the adapter; your project environment does not need its own debugpy.
+
+### First debug session
+
+Save this as `main.py` in a project directory:
+
+```python
+def total_price(price, quantity):
+    total = price * quantity
+    return total
+
+
+result = total_price(12, 3)
+print(result)
+```
+
+1. Open the file and save your edits with `:w` before debugging.
+2. Put the cursor on `result = total_price(12, 3)` and press `Space d b` to set a
+   breakpoint. A breakpoint pauses execution **before** that line runs.
+3. Press `Space d c` to launch the current file. Execution pauses at the breakpoint.
+4. Press `Space d i` to enter `total_price`, then `Space d o` to execute the
+   multiplication. Put the cursor on `total` and press `Space d h` to inspect it;
+   it should be `36`. Use `Space d v` to see all local variables.
+5. Close the floating viewer with `:q`, then press `Space d c` to finish. Program
+   output appears in a terminal split; `input()` also works there.
+
+These shortcuts work in normal mode; `<leader>` is `Space`:
+
+| Shortcut | Action |
+| --- | --- |
+| `<leader>db` | Toggle a breakpoint on the current line |
+| `<leader>dB` | Set a conditional breakpoint, such as `quantity > 2` |
+| `<leader>dc` | Start debugging the current file, or continue to the next breakpoint |
+| `<leader>do` | Step over: execute the next line without entering function calls |
+| `<leader>di` | Step into a function call |
+| `<leader>dO` | Step out: finish the current function and return to its caller |
+| `<leader>dh` | Inspect the expression under the cursor while paused |
+| `<leader>dv` | Show variables and scopes while paused |
+| `<leader>df` | Show stack frames; press Enter on a frame to inspect its caller |
+| `<leader>dr` | Toggle the debug console (REPL) |
+| `<leader>dl` | Run the last debug configuration again |
+| `<leader>dt` | Terminate the debug session |
+
+In the console, press `i`, type an expression such as `price * quantity`, then
+press Enter to evaluate it while paused. `.help` lists console commands.
+Press Enter on structured variables in viewers to expand them. Use `:q` to close
+a floating viewer, `Ctrl-w w` to move between splits, and NvChad's `Ctrl-x` to
+leave terminal input mode. Toggle breakpoints off with `Space d b` when finished;
+breakpoints last for the current Neovim session.
+
+The default configuration launches a standalone script and steps through your own
+code (`justMyCode = true`). For modules, command-line arguments, or framework
+entry points, add a configuration in `lua/configs/dap.lua` using `module`, `args`,
+or `env` as described in the [debugpy configuration reference](https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings).
+See [nvim-dap's documentation](https://codeberg.org/mfussenegger/nvim-dap) and
+`:help dap` for more workflows.
+
+nvim-dap also reads `.vscode/launch.json` from Neovim's working directory and
+offers those configurations when starting a session. Both `"type": "debugpy"`
+and the older `"type": "python"` use Mason's debugpy adapter. Choose
+`Python: current file` to use the default setup above, or select your project's
+configuration to use its arguments, environment, and entry point.
+
+If the debugger cannot start, check `:Mason` for `debugpy` and run
+`:MasonInstall debugpy` if missing. Use `:DapShowLog` for adapter errors.
+If imports fail, check that Neovim's working directory (`:pwd`) and the chosen
+project environment match your project.
+
 ## Save changes
 
 ```sh
