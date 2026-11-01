@@ -27,7 +27,8 @@ Allow the first launch to install plugins, then run these commands inside Neovim
 can restore the same versions on another computer. See the [lazy.nvim lockfile guide](https://lazy.folke.io/usage/lockfile).
 
 `lua/configs/mason.lua` lists the tools to install: `lua-language-server`,
-`html-lsp`, `css-lsp`, `basedpyright`, `stylua`, `ruff`, `prettier`, and `debugpy`.
+`html-lsp`, `css-lsp`, `basedpyright`, `typescript-language-server`, `eslint-lsp`,
+`stylua`, `ruff`, `prettier`, `debugpy`, and `js-debug-adapter`.
 `lua/chadrc.lua` connects this list to NvChad's built-in `:MasonInstallAll`
 command, which installs missing tools when run. No extra installer plugin or
 startup installation is needed. NvChad also detects tools from the LSP,
@@ -135,7 +136,8 @@ viewers, with no additional debugger UI plugins.
 Restart Neovim after pulling this configuration and let Lazy install `nvim-dap`.
 On another computer, run `:Lazy restore` and `:MasonInstallAll` first.
 The configuration lives in `lua/configs/dap.lua`, and its shortcuts are in
-`lua/plugins/dap.lua`. It loads when opening Python files or using a debug shortcut.
+`lua/plugins/dap.lua`. It loads when opening Python, JavaScript, or TypeScript
+files (including JSX/TSX), or when using a debug shortcut.
 
 Start Neovim from your Python project's root directory (`cd /path/to/project &&
 nvim main.py`), or use `:cd /path/to/project` inside Neovim. That directory is
@@ -214,6 +216,80 @@ If the debugger cannot start, check `:Mason` for `debugpy` and run
 `:MasonInstall debugpy` if missing. Use `:DapShowLog` for adapter errors.
 If imports fail, check that Neovim's working directory (`:pwd`) and the chosen
 project environment match your project.
+
+## JavaScript and TypeScript
+
+Install Node.js and npm before running `:MasonInstallAll`. Mason installs
+`typescript-language-server` (enabled as `ts_ls`), `eslint-lsp` (enabled as
+`eslint`), `prettier`, and `js-debug-adapter`. Run `:TSInstallAll` for the
+JavaScript, TypeScript, and TSX syntax parsers, then restart Neovim.
+
+`ts_ls` provides completion, type diagnostics, definitions (`gd`), references
+(`grr`), and rename (`Space r a`) for JS, TS, JSX, and TSX. Open Neovim from the
+project root so language servers and debug configurations use the right working
+directory. Use the project's `tsconfig.json` or `jsconfig.json` to define which
+files belong to the project. The installed `typescript-language-server` currently
+requires TypeScript below version 7; projects using the native TypeScript 7
+server need a different LSP configuration.
+
+### Linting and formatting
+
+ESLint supplies diagnostics and code actions; Conform runs Prettier on save.
+The built-in `gra` LSP shortcut shows code actions, and
+`:LspEslintFixAll` applies available ESLint fixes to the buffer.
+ESLint formatting is disabled so Prettier handles formatting consistently.
+
+For an existing project, install its declared dependencies with its package
+manager and keep its ESLint and Prettier configuration. Mason installs editor
+tools; the project's ESLint library, rules, and plugins remain project dependencies.
+For a new npm project, install:
+
+```sh
+npm install -D eslint @eslint/js typescript typescript-eslint prettier eslint-config-prettier
+```
+
+Create `eslint.config.mjs` in that project (not in this Neovim config):
+
+```js
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
+import prettier from "eslint-config-prettier";
+
+export default [js.configs.recommended, ...tseslint.configs.recommended, prettier];
+```
+
+Add environment globals and framework plugins to suit the project.
+`eslint-config-prettier` disables lint rules that conflict with formatting.
+Conform prefers a project's local Prettier installation and otherwise uses
+Mason's executable. Both follow the project's Prettier configuration.
+
+Use `:checkhealth vim.lsp` to inspect attached language servers and
+`:ConformInfo` to inspect the selected formatter. ESLint only attaches in
+projects with an ESLint configuration; `eslint_d` is not needed.
+
+### Debugging
+
+The same `Space d …` shortcuts documented above work for JS, TS, JSX, and TSX.
+Set a breakpoint with `Space d b`, then use `Space d c` to choose:
+
+- **Node: current file (compile TypeScript first)** launches a standalone Node
+  script. For TypeScript, compile first with source maps enabled, for example
+  `npx tsc --sourceMap --outDir dist`. The debugger uses the generated JavaScript
+  and maps breakpoints back to the TypeScript source. JSX/TSX also needs a build;
+  browser components should be debugged with the Chrome option.
+- **Node: attach to process** selects an existing Node process. Start the app
+  with `node --inspect-brk …` when you need it to pause before running your code.
+- **Chrome: launch web app** prompts for the dev server URL (default:
+  `http://localhost:5173`). Start the project's dev server first and install
+  Chrome separately. Source maps from the build/dev server connect TS/TSX/JSX
+  breakpoints to the code running in the browser.
+
+For framework entry points, custom TypeScript runtimes, arguments, or environment
+variables, use a project `.vscode/launch.json`. nvim-dap reads it automatically
+from the working directory. Adapter types `pwa-node` and `pwa-chrome`, plus the
+aliases `node` and `chrome`, are configured. Adapter ports are allocated per
+session. See the [JavaScript debugger options](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
+for project-specific launch settings. Use `:DapShowLog` if a session cannot start.
 
 ## Save changes
 

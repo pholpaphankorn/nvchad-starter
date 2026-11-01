@@ -5,9 +5,12 @@ return {
     "html-lsp",
     "css-lsp",
     "basedpyright",
+    "typescript-language-server",
+    "eslint-lsp",
     "stylua",
     "ruff",
     "prettier",
     "debugpy",
+    "js-debug-adapter",
   },
 }
