@@ -1,7 +1,7 @@
 return {
   {
     "mfussenegger/nvim-dap",
-    ft = "python",
+    ft = { "python", "javascript", "javascriptreact", "typescript", "typescriptreact" },
     cmd = {
       "DapContinue",
       "DapToggleBreakpoint",
