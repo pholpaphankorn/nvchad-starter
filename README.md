@@ -135,8 +135,10 @@ viewers, with no additional debugger UI plugins.
 
 Restart Neovim after pulling this configuration and let Lazy install `nvim-dap`.
 On another computer, run `:Lazy restore` and `:MasonInstallAll` first.
-The configuration lives in `lua/configs/dap.lua`, and its shortcuts are in
-`lua/plugins/dap.lua`. It loads when opening Python, JavaScript, or TypeScript
+The entry point is `lua/configs/dap.lua`; Python settings live in
+`lua/configs/dap/python.lua` and JavaScript/TypeScript settings in
+`lua/configs/dap/javascript.lua`. Shortcuts are in `lua/plugins/dap.lua`.
+It loads when opening Python, JavaScript, or TypeScript
 files (including JSX/TSX), or when using a debug shortcut.
 
 Start Neovim from your Python project's root directory (`cd /path/to/project &&
@@ -201,7 +203,7 @@ breakpoints last for the current Neovim session.
 
 The default configuration launches a standalone script and steps through your own
 code (`justMyCode = true`). For modules, command-line arguments, or framework
-entry points, add a configuration in `lua/configs/dap.lua` using `module`, `args`,
+entry points, add a configuration in `lua/configs/dap/python.lua` using `module`, `args`,
 or `env` as described in the [debugpy configuration reference](https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings).
 See [nvim-dap's documentation](https://codeberg.org/mfussenegger/nvim-dap) and
 `:help dap` for more workflows.
@@ -290,6 +292,13 @@ from the working directory. Adapter types `pwa-node` and `pwa-chrome`, plus the
 aliases `node` and `chrome`, are configured. Adapter ports are allocated per
 session. See the [JavaScript debugger options](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
 for project-specific launch settings. Use `:DapShowLog` if a session cannot start.
+
+## Adding a debugging language
+
+1. Add a module under `lua/configs/dap/` that registers its adapters and configurations.
+2. Require the module explicitly from `lua/configs/dap.lua`.
+3. Add its filetypes to the triggers in `lua/plugins/dap.lua`.
+4. Add its debugger package to `lua/configs/mason.lua` when needed.
 
 ## Save changes
 
