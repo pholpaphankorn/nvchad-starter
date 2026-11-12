@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType", "TermOpen" }, {
   end,
 })
 
-vim.g.autosave_enabled = vim.g.autosave_enabled == true
+vim.g.autosave_enabled = vim.g.autosave_enabled ~= false
 
 vim.api.nvim_create_autocmd({ "InsertLeave", "BufLeave", "FocusLost" }, {
   group = vim.api.nvim_create_augroup("AutoSave", { clear = true }),
