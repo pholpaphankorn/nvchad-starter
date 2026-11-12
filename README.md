@@ -47,7 +47,7 @@ parsers, and plugin checkouts are installed separately on each computer.
 
 ## Autosave
 
-Autosave is disabled by default when Neovim starts. In normal mode, press
+Autosave is enabled by default when Neovim starts. In normal mode, press
 `Space u a` to toggle it for the current session. A notification shows whether
 autosave is now enabled or disabled. When enabled, edited files are saved on
 leaving insert mode, leaving a buffer, or losing Neovim focus.
