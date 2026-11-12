@@ -1,0 +1,25 @@
+{
+  "repository": "pholpaphankorn/nvchad-starter",
+  "jobs": {
+    "10": {
+      "number": 10,
+      "branch": "codex/sandcastle-issue-10",
+      "baseBranch": "main",
+      "baseSha": "3b2abf533ea334d33d909fdb9fd28fc48923ed8a",
+      "status": "pr",
+      "rounds": 0,
+      "implementer": "codex",
+      "implementationSha": "4780faea9190349f9dcc4112f571ae917874ae7c",
+      "verification": "Lua syntax passed (17 files).",
+      "reviewedSha": "4780faea9190349f9dcc4112f571ae917874ae7c",
+      "reviewer": "claude",
+      "report": {
+        "verdict": "approved",
+        "findings": [],
+        "summary": "Moved the Python DAP setup into lua/configs/dap/python.lua and the JS/TS/JSX/TSX setup into lua/configs/dap/javascript.lua. Both are copied unchanged and register with nvim-dap when required. lua/configs/dap.lua now requires both modules by name. The plugin spec (filetype, command and shortcut triggers, require \"configs.dap\") and the Mason config are unchanged. The README points to the new modules, keeps the existing debugging instructions and adds a four-step checklist for adding a language. Added tests/dap_regression.lua, a headless check that compares old and new behavior. Cosmetic nits that don't block approval: the comment about the JS debugger's per-session port was dropped from javascript.lua, and stylua --check flags a trailing blank line in python.lua and one-line functions in the test file.",
+        "validation": "Ran nvim --headless -u NONE -l tests/dap_regression.lua and it passed. It loads the base-commit dap.lua and the new entry point with fake dap and vim.fn stand-ins and confirms: both register the same adapters and configurations; loading looks up no interpreter and prompts for nothing; Python interpreter selection works at each priority (VIRTUAL_ENV, CONDA_PREFIX, .venv, venv, python3, python) and fails with the same error when none is found; the node and chrome aliases switch to the right adapter and type; the URL prompt and default and the process picker are correct for all four filetypes. luac -p passes on all changed Lua files. Compared both modules line by line against the base file. git diff confirms lua/plugins/dap.lua and the Mason config are unchanged. Limitations: npm run check:lua can't run because the repo has no package.json, so luac was used instead. nvim-dap isn't installed in this sandbox, so the real plugin wasn't loaded. No live Python, Node or Chrome debug session was run; all behavior checks used stand-ins."
+      },
+      "pr": "https://github.com/pholpaphankorn/nvchad-starter/pull/11"
+    }
+  }
+}

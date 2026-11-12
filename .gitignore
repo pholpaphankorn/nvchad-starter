@@ -4,5 +4,6 @@
 *.swo
 *~
 .DS_Store
+node_modules/
 
 # Keep lazy-lock.json tracked to restore plugin versions on other computers.
